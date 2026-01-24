@@ -32,7 +32,7 @@ export const ourFileRouter = {
 
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata: _metadata, file }) => {
       console.log("Category image upload complete:", file.ufsUrl);
 
       return { url: file.ufsUrl, key: file.key };

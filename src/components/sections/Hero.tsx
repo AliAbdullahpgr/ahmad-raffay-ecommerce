@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, MessageCircle } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/Button";
 import { WhatsAppButton } from "~/components/ui/WhatsAppButton";
 import { SITE } from "~/lib/constants";

@@ -21,7 +21,8 @@ export const productRouter = createTRPCRouter({
         .optional()
     )
     .query(async ({ ctx, input }) => {
-      const { categorySlug, featured, inStock, limit, cursor } = input ?? {};
+      const { categorySlug, featured, inStock, cursor } = input ?? {};
+      const limit = input?.limit ?? 50;
 
       const products = await ctx.db.product.findMany({
         where: {
