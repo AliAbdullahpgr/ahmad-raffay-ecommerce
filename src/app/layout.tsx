@@ -69,6 +69,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "1j5bBWwKUQPTnwkJ9FWVv4KH6bQzRyhc9koWpKY7TRE",
+  },
   icons: {
     icon: "/favicon.ico",
   },
