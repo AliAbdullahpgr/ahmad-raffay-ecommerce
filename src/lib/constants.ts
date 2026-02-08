@@ -31,7 +31,7 @@ export const NAV_LINKS = [
   { href: "/gallery?category=shirts", label: "Shirts" },
   { href: "/gallery?category=trousers", label: "Trousers" },
   { href: "/#about", label: "About" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 // Admin Navigation Links

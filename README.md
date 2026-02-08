@@ -176,3 +176,9 @@ This project is proprietary. All rights reserved.
 ---
 
 Made with ❤️ in Rajanpur, Pakistan
+## Google Merchant Center
+
+- Product feed endpoint: `/merchant-feed.xml`
+- Server-rendered product metadata with Product JSON-LD
+- Policy pages: `/contact`, `/shipping-policy`, `/return-policy`
+- Setup checklist: `docs/google-merchant-checklist.md`

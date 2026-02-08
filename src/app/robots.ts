@@ -1,7 +1,8 @@
 import { type MetadataRoute } from "next";
+import { getBaseUrl } from "~/lib/merchant";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXTAUTH_URL ?? "https://ahmadrafayhandwork.com";
+  const baseUrl = getBaseUrl();
 
   return {
     rules: {
@@ -10,5 +11,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/admin/", "/api/"],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

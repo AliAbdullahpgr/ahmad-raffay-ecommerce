@@ -1,8 +1,9 @@
 import { type MetadataRoute } from "next";
+import { getBaseUrl } from "~/lib/merchant";
 import { db } from "~/server/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXTAUTH_URL ?? "https://ahmadrafayhandwork.com";
+  const baseUrl = getBaseUrl();
 
   // Get all products
   const products = await db.product.findMany({
@@ -28,6 +29,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/shipping-policy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/return-policy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
   ];
 

@@ -5,7 +5,8 @@ import { type Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { SITE } from "~/lib/constants";
+import { CONTACT, SITE } from "~/lib/constants";
+import { getBaseUrl, getMerchantConfig } from "~/lib/merchant";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,7 +24,11 @@ const playfair = Playfair_Display({
   fallback: ["Georgia", "serif"],
 });
 
+const baseUrl = getBaseUrl();
+const merchant = getMerchantConfig();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     default: `${SITE.name} | ${SITE.tagline}`,
     template: `%s | ${SITE.name}`,
@@ -43,10 +48,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE.name }],
   creator: SITE.name,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_PK",
-    url: SITE.url,
+    url: baseUrl,
     siteName: SITE.name,
     title: SITE.name,
     description: SITE.description,
@@ -80,9 +88,45 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const storeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    "@id": `${baseUrl}/#store`,
+    name: SITE.name,
+    url: baseUrl,
+    description: SITE.description,
+    currenciesAccepted: merchant.currency,
+    paymentAccepted: "Cash on Delivery",
+    sameAs: [CONTACT.instagramUrl, CONTACT.facebookUrl],
+    contactPoint: merchant.supportPhone
+      ? [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            telephone: merchant.supportPhone,
+            availableLanguage: ["en", "ur"],
+          },
+        ]
+      : undefined,
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: merchant.targetCountry,
+      returnPolicyCategory:
+        "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: merchant.returnWindowDays,
+      returnMethod: "https://schema.org/ReturnByMail",
+      returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+      merchantReturnLink: `${baseUrl}/return-policy`,
+    },
+  };
+
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd) }}
+        />
         <TRPCReactProvider>
           {children}
           <Toaster
